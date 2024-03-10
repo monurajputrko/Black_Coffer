@@ -1,81 +1,84 @@
-import React, { useEffect } from 'react'
-import { PolarArea } from 'react-chartjs-2';
-import Chart from 'chart.js/auto';
-
+import React from "react";
+import { PolarArea } from "react-chartjs-2";
 
 const PolarChart = ({ serverData }) => {
+  let uniqueCountries = new Set();
+  let uniqueRegions = new Set();
+  let uniqueSources = new Set();
+  let uniqueTopics = new Set();
+  let uniqueSectors = new Set();
+  let uniquePestles = new Set();
+  let uniqueCities = new Set();
 
-    let uniqueSectors = [];
-    //using forEach because it doesn't return any array
-    serverData.forEach((i) => {
-        if (!uniqueSectors.includes(i.sector) && i.sector !== "") {
-            uniqueSectors.push(i.sector);
-        }
-    })
+  let intensityValues = new Set();
+  let likelihoodValues = new Set();
+  let relevanceValues = new Set();
+  let yearValues = new Set();
+  let cityValues = new Set();
 
-    let uniqueTopics = [];
-    serverData.forEach((i) => {
-        if (!uniqueTopics.includes(i.topic) && i.topic !== "") {
-            uniqueTopics.push(i.topic);
-        }
-    })
+  serverData.forEach((data) => {
+    uniqueCountries.add(data.country);
+    uniqueRegions.add(data.region);
+    uniqueSources.add(data.source);
+    uniqueTopics.add(data.topic);
+    uniqueSectors.add(data.sector);
+    uniquePestles.add(data.pestle);
+    uniqueCities.add(data.city);
 
-    let uniqueRegion = [];
-    serverData.forEach((i) => {
-        if (!uniqueRegion.includes(i.region) && i.region !== "") {
-            uniqueRegion.push(i.region);
-        }
-    })
+    intensityValues.add(data.intensity);
+    likelihoodValues.add(data.likelihood);
+    relevanceValues.add(data.relevance);
+    yearValues.add(data.year);
+  });
 
-    let uniqueCountry = [];
-    serverData.forEach((i) => {
-        if (!uniqueCountry.includes(i.country) && i.country !== "") {
-            uniqueCountry.push(i.country);
-        }
-    })
+  const data = [
+    uniqueCountries.size,
+    uniqueRegions.size,
+    uniqueSources.size,
+    uniqueTopics.size,
+    uniqueSectors.size,
+    uniquePestles.size,
+    uniqueCities.size,
+    intensityValues.size,
+    likelihoodValues.size,
+    relevanceValues.size,
+    yearValues.size,
+  ];
 
-    let uniqueSource = [];
-    serverData.forEach((i) => {
-        if (!uniqueSource.includes(i.source) && i.source !== "") {
-            uniqueSource.push(i.source);
-        }
-    })
+  const labels = [
+    "Countries",
+    "Regions",
+    "Sources",
+    "Topics",
+    "Sectors",
+    "Pestles",
+    "Cities",
+    "Intensity",
+    "Likelihood",
+    "Relevance",
+    "Year",
+  ];
 
-    let uniquePestle = [];
-    serverData.forEach((i) => {
-        if (!uniquePestle.includes(i.pestle) && i.pestle !== "") {
-            uniquePestle.push(i.pestle);
-        }
-    })
+  return (
+    <div style={{ height: "50vh", width: "45vw" }}>
+      <PolarArea
+        data={{
+          labels: labels,
+          datasets: [
+            {
+              label: "Count",
+              data: data,
+              borderWidth: 1,
+            },
+          ],
+        }}
+        options={{
+          maintainAspectRatio: false,
+        }}
+        height={300}
+      />
+    </div>
+  );
+};
 
-    const label = ["Country", "Region", "Source", "Topic", "Sector", "Pestle"];
-
-    return (
-        <div style={{ height:'50vh', width: '45vw'}}>
-            <PolarArea
-                data={{
-                    labels: label,
-                    datasets: [
-                        {
-                            label: "Total: ",
-                            data: [uniqueCountry.length, uniqueRegion.length, uniqueSource.length, uniqueTopics.length, uniqueSectors.length, uniquePestle.length],
-                            borderWidth: 1,
-                        },
-                    ]
-                }}
-                options={{
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            type: 'linear',
-                            beginAtZero: true
-                        },
-                    }
-                }}
-                height={300}
-            />
-        </div>
-    )
-}
-
-export default PolarChart
+export default PolarChart;

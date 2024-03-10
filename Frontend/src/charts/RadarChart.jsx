@@ -1,50 +1,57 @@
-import React from 'react'
-import { Radar } from 'react-chartjs-2';
-import Chart from 'chart.js/auto';
+import React from "react";
+import { Radar } from "react-chartjs-2";
 
-const RadarChart = ({serverData}) => {
+const RadarChart = ({ serverData }) => {
+  const uniqueFields = {
+    intensity: [],
+    likelihood: [],
+    relevance: [],
+    year: [],
+    country: [],
+    topics: [],
+    region: [],
+    city: [],
+  };
 
-    let uniquePestle = [];
+  serverData.forEach((item) => {
+    Object.keys(uniqueFields).forEach((field) => {
+      if (!uniqueFields[field].includes(item[field]) && item[field] !== "") {
+        uniqueFields[field].push(item[field]);
+      }
+    });
+  });
 
-    serverData.forEach((i) => {
-        if (!uniquePestle.includes(i.pestle) && i.pestle !== "") {
-            uniquePestle.push(i.pestle);
-        }
-    })
-
-    const pestleCount = uniquePestle.map((item) => {
-        return {
-            pestle: item,
-            count: serverData.filter((i) => i.pestle === item).length
-        }
-    })
+  const data = Object.keys(uniqueFields).map((field) => ({
+    label: field,
+    data: uniqueFields[field].map(
+      (value) => serverData.filter((item) => item[field] === value).length
+    ),
+  }));
 
   return (
-    <div style={{ height:'50vh', width:'45vw'}}>
-            <Radar
-                data={{
-                    labels: uniquePestle,
-                    datasets: [
-                        {
-                            label: "Projects ",
-                            data: pestleCount.map(i=>i.count),
-                            borderWidth: 1,
-                        },
-                    ]
-                }}
-                options={{
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            type: 'linear',
-                            beginAtZero: true
-                        },
-                    }
-                }}
-                height={300}
-            />
-        </div>
-  )
-}
+    <div style={{ height: "50vh", width: "45vw" }}>
+      <Radar
+        data={{
+          labels: Object.keys(uniqueFields).map((field) => field),
+          datasets: data.map((item) => ({
+            label: item.label,
+            data: item.data,
+            borderWidth: 1,
+          })),
+        }}
+        options={{
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              type: "linear",
+              beginAtZero: true,
+            },
+          },
+        }}
+        height={300}
+      />
+    </div>
+  );
+};
 
-export default RadarChart
+export default RadarChart;

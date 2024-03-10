@@ -13,7 +13,7 @@ function App() {
     //asynchronous function to fetch data from server and updating the state
     const getDataFromDB = async() => {
         try{
-            const response = await axios.get("http://localhost:8080");
+            const response = await axios.get("https://coffbackend.vercel.app");
             setMainData(response.data.data)
         }
         catch(e){
@@ -29,10 +29,11 @@ function App() {
       console.log(mainData.length)
     },[mainData])
 
-  return (
+  return ( 
     <div>
       <Header/>
       <Tabsrow data={mainData} setMainData={setMainData} />
+      {/* <Tabsrow /> */}
     </div>
   );
 }

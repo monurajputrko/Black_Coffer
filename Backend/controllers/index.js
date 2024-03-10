@@ -33,10 +33,6 @@ export const filteredByYear = async (req, res) => {
                 message: "Invalid year",
             })
         }
-        // ----------- important -----------
-        // using '$or' operator to which includes multiple conditions
-        // using '$regex' to match the particular field with given input
-        // using $options: 'i' to make the search case-insensitive
         const allData = await Data.find({
             $or: [{ start_year: year }, { end_year: year }, { published: { $regex: year, $options: 'i' } },
             { added: { $regex: year, $options: 'i' } }]
@@ -60,7 +56,6 @@ export const filteredByYear = async (req, res) => {
     }
 }
 
-// function to get data filtered by topics
 export const filteredByTopic = async (req, res) => {
     try {
         const { topic } = req.params;
@@ -70,9 +65,6 @@ export const filteredByTopic = async (req, res) => {
                 message: "Invalid topic",
             })
         }
-        // ----------- important -----------
-        // using '$regex' to match the particular field with given input
-        // using $options: 'i' to make the search case-insensitive
         const allData = await Data.find({ topic: { $regex: topic, $options: 'i' } });
         if (!allData || allData.length === 0) {
             return res.status(400).json({
@@ -93,7 +85,6 @@ export const filteredByTopic = async (req, res) => {
     }
 }
 
-// function to get data filtered by title
 export const filteredByTitle = async (req, res) => {
     try {
         const { title } = req.params;
@@ -103,9 +94,7 @@ export const filteredByTitle = async (req, res) => {
                 message: "Invalid title",
             })
         }
-        // ----------- important -----------
-        // using '$regex' to match the particular field with given input
-        // using $options: 'i' to make the search case-insensitive
+
         const allData = await Data.find({ title: { $regex: title, $options: 'i' } });
         if (!allData || allData.length === 0) {
             return res.status(400).json({
@@ -126,7 +115,6 @@ export const filteredByTitle = async (req, res) => {
     }
 }
 
-// function to get data filtered by sector
 export const filteredBySector = async (req, res) => {
     try {
         const { sector } = req.params;
@@ -136,9 +124,6 @@ export const filteredBySector = async (req, res) => {
                 message: "Invalid sector",
             })
         }
-        // ----------- important -----------
-        // using '$regex' to match the particular field with given input
-        // using $options: 'i' to make the search case-insensitive
         const allData = await Data.find({ sector: { $regex: sector, $options: 'i' } });
         if (!allData || allData.length === 0) {
             return res.status(400).json({
@@ -169,9 +154,6 @@ export const filteredByRegion = async (req, res) => {
                 message: "Invalid region",
             })
         }
-        // ----------- important -----------
-        // using '$regex' to match the particular field with given input
-        // using $options: 'i' to make the search case-insensitive
         const allData = await Data.find({ region: { $regex: region, $options: 'i' } });
         if (!allData || allData.length === 0) {
             return res.status(400).json({
@@ -202,9 +184,6 @@ export const filteredByCountry = async (req, res) => {
                 message: "Invalid country",
             })
         }
-        // ----------- important -----------
-        // using '$regex' to match the particular field with given input
-        // using $options: 'i' to make the search case-insensitive
         const allData = await Data.find({ country: { $regex: country, $options: 'i' } });
         if (!allData || allData.length === 0) {
             return res.status(400).json({
@@ -235,9 +214,6 @@ export const filteredByPestle = async (req, res) => {
                 message: "Invalid pestle",
             })
         }
-        // ----------- important -----------
-        // using '$regex' to match the particular field with given input
-        // using $options: 'i' to make the search case-insensitive
         const allData = await Data.find({ pestle: { $regex: pestle, $options: 'i' } });
         if (!allData || allData.length === 0) {
             return res.status(400).json({
@@ -268,9 +244,6 @@ export const filteredBySource = async (req, res) => {
                 message: "Invalid source",
             })
         }
-        // ----------- important -----------
-        // using '$regex' to match the particular field with given input
-        // using $options: 'i' to make the search case-insensitive
         const allData = await Data.find({ source: { $regex: source, $options: 'i' } });
         if (!allData || allData.length === 0) {
             return res.status(400).json({
@@ -349,10 +322,6 @@ export const filteredByAny = async (req, res) => {
                 message: "Invalid search",
             })
         }
-        // ----------- important -----------
-        // using '$or' operator to which includes multiple conditions
-        // using '$regex' to match the particular field with given input
-        // using $options: 'i' to make the search case-insensitive
         const allData = await Data.find({
             $or: [{ sector: { $regex: search, $options: 'i' } }, { topic: { $regex: search, $options: 'i' } },
             { insight: { $regex: search, $options: 'i' } }, { title: { $regex: search, $options: 'i' } },

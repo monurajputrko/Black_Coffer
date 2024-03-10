@@ -8,7 +8,7 @@ const Header = () => {
         <>
             <Navbar bg="primary" variant="dark">
                 <Container>
-                    <Navbar.Brand>Data Virtualization Dashboard</Navbar.Brand>
+                    <Navbar.Brand>BlackCoffer Data Dashboard</Navbar.Brand>
                 </Container>
             </Navbar>
         </>

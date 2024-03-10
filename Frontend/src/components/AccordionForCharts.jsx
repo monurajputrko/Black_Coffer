@@ -41,6 +41,7 @@ const AccordionForCharts = ({ data }) => {
                         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                             <RadarChart serverData={data} />
                             <PieChart serverData={data} />
+                            {/* {console.log("hello m ",data)} */}
                         </div>
                     </Accordion.Body>
                 </Accordion.Item>
