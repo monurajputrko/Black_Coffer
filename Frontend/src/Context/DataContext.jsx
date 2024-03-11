@@ -8,7 +8,7 @@ export const useData = () => useContext(DataContext); // Use context Functions f
 
 export const DataProvider = ({ children }) => {
     const [mainData, setMainData] = useState("");  // State for Main Data
-    const [ChangeChart, setChangeChart] = useState("BarChart"); // State for Changing Chart
+    const [ChangeChart, setChangeChart] = useState("LineChart"); // State for Changing Chart
     const [search, setSearch] = useState(""); // State for Storing Search Data
 
   // Function for Reseting Filters
