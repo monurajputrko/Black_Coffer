@@ -13,6 +13,10 @@ body{
   padding: 0;
 }
 
+.Dropdown{
+  margin: 5px;
+}
+
 .card {
   margin: 15px;
   max-width: 300px;

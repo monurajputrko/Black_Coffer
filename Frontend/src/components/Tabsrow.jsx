@@ -25,7 +25,7 @@ const Tabsrow = ({ data, setMainData }) => {
             onChange={(e) => setSearch(e.target.value)}
             style={{ marginRight: "1rem" }}
           />
-          <button className="btn btn-primary my-2 my-sm-0" type="submit">
+          <button class="btn btn-dark" type="submit">
             Search
           </button>
         </form>
