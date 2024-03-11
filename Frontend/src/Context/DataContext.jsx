@@ -4,15 +4,14 @@ import React, { createContext,useContext, useEffect, useState } from 'react'
 
 export const DataContext = createContext();
 
-export const useData = () => useContext(DataContext);
+export const useData = () => useContext(DataContext); // Use context Functions for Consuming Data form DataContext
 
 export const DataProvider = ({ children }) => {
-    const [mainData, setMainData] = useState("");
-    const [ChangeChart, setChangeChart] = useState("BarChart");
-    const [search, setSearch] = useState("");
-    const [limit, setLimit] = useState(1000);
-    const limitedData = mainData.slice(0, limit);
+    const [mainData, setMainData] = useState("");  // State for Main Data
+    const [ChangeChart, setChangeChart] = useState("BarChart"); // State for Changing Chart
+    const [search, setSearch] = useState(""); // State for Storing Search Data
 
+  // Function for Reseting Filters
   const handleReset = async () => {
     try {
       const response = await axios.get("https://coffbackend.vercel.app");
@@ -22,6 +21,7 @@ export const DataProvider = ({ children }) => {
     }
   };
 
+  // Function to Fetch Data from Backend
   const getDataFromDB = async () => {
     try {
       const response = await axios.get("https://coffbackend.vercel.app");
@@ -31,9 +31,12 @@ export const DataProvider = ({ children }) => {
     }
     };
     
+      // Function to get the Date filter  
       const handleSelect = (eventKey, event) => {
         getDataFromDBwithYear(event.target.innerText);
-      };
+  };
+  
+  // function to get the Filted Data form Backend
       const getDataFromDBwithYear = async (year) => {
         try {
           const response = await axios.get(
@@ -45,8 +48,7 @@ export const DataProvider = ({ children }) => {
         }
     };
     
-    //////
-       
+       // Function for Searching Data
        const handleSearchResult = async (e) => {
          e.preventDefault();
          try {
@@ -70,7 +72,7 @@ export const DataProvider = ({ children }) => {
   }, [mainData]);
 
   return (
-    <DataContext.Provider value={{ mainData, setMainData,handleReset,ChangeChart,setChangeChart,handleSelect,getDataFromDBwithYear,handleSearchResult,search,setSearch,limit,setLimit,limitedData }}>
+    <DataContext.Provider value={{ mainData, setMainData,handleReset,ChangeChart,setChangeChart,handleSelect,getDataFromDBwithYear,handleSearchResult,search,setSearch }}>
       {children}
     </DataContext.Provider>
   );

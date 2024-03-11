@@ -1,22 +1,21 @@
 import '../App.css'
-import Tab from 'react-bootstrap/Tab';
-import Tabs from 'react-bootstrap/Tabs';
-
 import CardsForData from './CardsForData';
 import Filters from './Filters';
 import { useData } from '../Context/DataContext';
 
-const Tabsrow = ({ data, setMainData }) => {
+const DataContainer = () => {
 
-   const { handleSearchResult, setSearch, limitedData } = useData();
+   const { handleSearchResult, setSearch, mainData } = useData(); // Data Came From DataContext
 
     return (
       <div className="tabsClass">
+        {/* Form for Searching */}
         <form
           className="form-inline"
           onSubmit={handleSearchResult}
           style={{ display: "flex", justifyContent: "space-evenly" }}
         >
+          {/* Input Field for Searching */}
           <input
             className="form-control mr-sm-2"
             type="search"
@@ -25,28 +24,28 @@ const Tabsrow = ({ data, setMainData }) => {
             onChange={(e) => setSearch(e.target.value)}
             style={{ marginRight: "1rem" }}
           />
+          {/* Button for Search button */}
           <button class="btn btn-dark" type="submit">
             Search
           </button>
         </form>
-        <Filters data={data} setMainData={setMainData} />
 
-        {limitedData && limitedData.length === 0 ? (
-          <div style={{ margin: "1rem" }}>
-            <div>Loading...</div>
-          </div>
-        ) : (
-          limitedData &&
-          limitedData.length > 0 && (
+        {/* Components for Filter And Charts */}
+        <Filters />
+         
+        
+        {
+          mainData.length > 0 && (
             <div className="cardDiv">
-              {limitedData.map((e, i) => {
+              {/* Map for Showing Cards  */}
+              {mainData.map((e, i) => {
                 return <CardsForData item={e} key={i} />;
               })}
             </div>
           )
-        )}
+        }
       </div>
     );
 }
 
-export default Tabsrow
+export default DataContainer

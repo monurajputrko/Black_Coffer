@@ -59,9 +59,7 @@ const BarChart = ({ serverData }) => {
           maintainAspectRatio: false,
           scales: {
             x: {
-              // title: {
                 display: true,
-              // },
             }
           },
         }}

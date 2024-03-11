@@ -4,7 +4,7 @@ import { useData } from '../Context/DataContext';
 
 export default function Buttons() {
 
-     const { handleReset, setChangeChart } = useData();
+     const { setChangeChart } = useData(); // Data Came from DataContext
 
   return (
     <div>
@@ -16,6 +16,7 @@ export default function Buttons() {
           alignItems: "center",
         }}
       >
+        {/*  When Selecting Line Chart */}
         <Button
           variant="info"
           onClick={() => {
@@ -25,6 +26,8 @@ export default function Buttons() {
         >
           Line Chart
         </Button>
+
+        {/*  When Selecting Radar Chart */}
         <Button
           variant="info"
           onClick={() => {
@@ -34,6 +37,8 @@ export default function Buttons() {
         >
           Radar chart
         </Button>
+
+        {/*  When Selecting Bar Chart */}
         <Button
           variant="info"
           onClick={() => {
@@ -43,6 +48,8 @@ export default function Buttons() {
         >
           Bar Chart
         </Button>
+
+        {/*  When Selecting Doughnut Chart */}
         <Button
           variant="info"
           onClick={() => {
@@ -52,16 +59,24 @@ export default function Buttons() {
         >
           Doughnut
         </Button>
+
+        {/*  When Selecting Polar Chart */}
         <Button
           variant="info"
-           onClick={()=>{setChangeChart("PolarChart")}}
+          onClick={() => {
+            setChangeChart("PolarChart");
+          }}
           style={{ marginLeft: "1vw", width: "10rem" }}
         >
           Polar Chart
         </Button>
+
+        {/*  When Selecting Pie Chart */}
         <Button
           variant="info"
-           onClick={()=>{setChangeChart("PieChart")}}
+          onClick={() => {
+            setChangeChart("PieChart");
+          }}
           style={{ marginLeft: "1vw", width: "10rem" }}
         >
           Pie Chart
