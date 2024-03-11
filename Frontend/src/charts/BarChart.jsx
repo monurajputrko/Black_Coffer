@@ -44,6 +44,9 @@ const BarChart = ({ serverData }) => {
   // Create labels for the chart
   const labels =
     data.length > 0 ? data[0].data.map((entry) => entry.label) : [];
+  
+  console.log(labels);
+  console.log(datasets);
 
   return (
     <div style={{ height: "50vh" }}>
@@ -55,9 +58,11 @@ const BarChart = ({ serverData }) => {
         options={{
           maintainAspectRatio: false,
           scales: {
-            y: {
-              beginAtZero: true,
-            },
+            x: {
+              // title: {
+                display: true,
+              // },
+            }
           },
         }}
       />

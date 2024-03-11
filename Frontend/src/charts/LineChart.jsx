@@ -2,12 +2,13 @@ import React from "react";
 import { Line } from "react-chartjs-2";
 
 const LineChart = ({ serverData }) => {
-  const uniqueFields = {
+  // Get unique values for each field
+  const uniqueValues = {
+    sector: [],
     country: [],
     region: [],
     source: [],
     topic: [],
-    sector: [],
     pestle: [],
     intensity: [],
     likelihood: [],
@@ -17,30 +18,38 @@ const LineChart = ({ serverData }) => {
   };
 
   serverData.forEach((item) => {
-    Object.keys(uniqueFields).forEach((field) => {
-      if (!uniqueFields[field].includes(item[field]) && item[field] !== "") {
-        uniqueFields[field].push(item[field]);
+    Object.keys(uniqueValues).forEach((field) => {
+      if (!uniqueValues[field].includes(item[field]) && item[field] !== "") {
+        uniqueValues[field].push(item[field]);
       }
     });
   });
 
-  const data = Object.keys(uniqueFields).map((field) => ({
+  // Count the number of projects for each unique value
+  const data = Object.keys(uniqueValues).map((field) => ({
     label: field,
-    data: uniqueFields[field].map(
-      (value) => serverData.filter((item) => item[field] === value).length
-    ),
+    data: uniqueValues[field].map((value) => ({
+      label: value,
+      count: serverData.filter((item) => item[field] === value).length,
+    })),
   }));
 
+  // Create datasets for the chart
+  const datasets = data.map((item, index) => ({
+    label: item.label,
+    data: item.data.map((entry) => entry.count)
+  }));
+
+  // Create labels for the chart
+  const labels =
+    data.length > 0 ? data[0].data.map((entry) => entry.label) : [];
+  
   return (
     <div style={{ height: "50vh" }}>
       <Line
         data={{
-          labels: Object.keys(uniqueFields).map((field) => field),
-          datasets: data.map((item) => ({
-            label: item.label,
-            data: item.data,
-            borderWidth: 1,
-          })),
+          labels: labels,
+          datasets: datasets,
         }}
         options={{
           maintainAspectRatio: false,

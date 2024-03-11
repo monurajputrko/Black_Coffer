@@ -2,47 +2,55 @@ import React from "react";
 import { Pie } from "react-chartjs-2";
 
 const PieChart = ({ serverData }) => {
-  const data = {
-    labels: [
-      "Intensity",
-      "Likelihood",
-      "Relevance",
-      "Year",
-      "Country",
-      "Topics",
-      "Region",
-      "City",
-    ],
-    datasets: [
-      {
-        data: [
-          serverData.reduce((acc, curr) => acc + curr.intensity, 0),
-          serverData.reduce((acc, curr) => acc + curr.likelihood, 0),
-          serverData.reduce((acc, curr) => acc + curr.relevance, 0),
-          serverData.filter((item) => item.year !== null).length,
-          serverData.filter((item) => item.country !== "").length,
-          serverData.filter((item) => item.topics !== "").length,
-          serverData.filter((item) => item.region !== "").length,
-          serverData.filter((item) => item.city !== "").length,
-        ],
-        backgroundColor: [
-          "rgba(255, 99, 132, 0.6)",
-          "rgba(54, 162, 235, 0.6)",
-          "rgba(255, 206, 86, 0.6)",
-          "rgba(75, 192, 192, 0.6)",
-          "rgba(153, 102, 255, 0.6)",
-          "rgba(255, 159, 64, 0.6)",
-          "rgba(255, 99, 132, 0.6)",
-          "rgba(54, 162, 235, 0.6)",
-        ],
-      },
-    ],
+  // Get unique values for each field
+  const uniqueValues = {
+    sector: [],
+    country: [],
+    region: [],
+    source: [],
+    topic: [],
+    pestle: [],
+    intensity: [],
+    likelihood: [],
+    relevance: [],
+    year: [],
+    city: [],
   };
+
+  serverData.forEach((item) => {
+    Object.keys(uniqueValues).forEach((field) => {
+      if (!uniqueValues[field].includes(item[field]) && item[field] !== "") {
+        uniqueValues[field].push(item[field]);
+      }
+    });
+  });
+
+  // Count the number of projects for each unique value
+  const data = Object.keys(uniqueValues).map((field) => ({
+    label: field,
+    data: uniqueValues[field].map((value) => ({
+      label: value,
+      count: serverData.filter((item) => item[field] === value).length,
+    })),
+  }));
+
+  // Create datasets for the chart
+  const datasets = data.map((item, index) => ({
+    label: item.label,
+    data: item.data.map((entry) => entry.count),
+  }));
+
+  // Create labels for the chart
+  const labels =
+    data.length > 0 ? data[0].data.map((entry) => entry.label) : [];
 
   return (
     <div style={{ height: "50vh", width: "45vw" }}>
       <Pie
-        data={data}
+        data={{
+          labels: labels,
+          datasets: datasets,
+        }}
         options={{
           maintainAspectRatio: false,
           scales: {
