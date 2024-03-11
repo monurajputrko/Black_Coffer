@@ -12,6 +12,8 @@ export default function Buttons() {
         style={{
           display: "flex",
           justifyContent: "center",
+          flexWrap: "wrap",
+          gap:"5px",
           flexDirection: "row",
           alignItems: "center",
         }}
